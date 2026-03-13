@@ -18,7 +18,13 @@ namespace WebUygulamaProje1.Controllers
         public IActionResult Index()   // index action çağırıldığı zaman veritabanına gidip kitap türlerini listeleyecek
         {
             List<KitapTuru> objKitapTuruList = _uygulamaDbContext.KitapTurleri.ToList();
-             return View();
+             return View(objKitapTuruList);
+        }
+
+
+        public IActionResult Ekle()
+        {
+            return View();
         }
     }
 }
