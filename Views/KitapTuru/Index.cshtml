@@ -16,6 +16,8 @@
         <tr>
             <th>Id</th>
             <th>Kitap Türü</th>
+            <th></th>
+            <th></th>
 
         </tr>
     </thead>
@@ -26,6 +28,11 @@
             <tr>
                 <td>@KitapTuru.Id</td>
                 <td>@KitapTuru.Ad</td>
+
+                <td><a asp-controller="KitapTuru" asp-action="Guncelle" asp-route-id="@KitapTuru.Id" type="button" class="btn btn-warning" style="width:100px">Güncelle</a> </td>
+
+                <td><a asp-controller="KitapTuru" asp-action="Sil" asp-route-id="@KitapTuru.Id" type="button" class="btn btn-danger" style="width:100px">Sil</a></td>
+                
             </tr>
         }
     </tbody>
