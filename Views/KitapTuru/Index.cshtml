@@ -1,5 +1,13 @@
 ﻿@model List<KitapTuru>
 
+@if(TempData["basarili"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["basarili"]
+    </div>
+}
+
+
 <div>
 
     <div class="row-cols-md-1 pt-3 pb-4">
