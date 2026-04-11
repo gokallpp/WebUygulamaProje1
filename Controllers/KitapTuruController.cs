@@ -7,17 +7,17 @@ namespace WebUygulamaProje1.Controllers
     public class KitapTuruController : Controller
     {
 
-        private readonly UygulamaDbContext _uygulamaDbContext;
+        private readonly IKitapTuruRepository _kitapturuRepository;
 
-        public KitapTuruController(UygulamaDbContext context)
+        public KitapTuruController(IKitapTuruRepository context)
         {
-            _uygulamaDbContext = context;
+            _kitapturuRepository = context;
         }
 
 
         public IActionResult Index()   // index action çağırıldığı zaman veritabanına gidip kitap türlerini listeleyecek
         {
-            List<KitapTuru> objKitapTuruList = _uygulamaDbContext.KitapTurleri.ToList();
+            List<KitapTuru> objKitapTuruList = _kitapturuRepository.GetAll().ToList();
             return View(objKitapTuruList);
         }
 
@@ -33,8 +33,8 @@ namespace WebUygulamaProje1.Controllers
             if (ModelState.IsValid)
             {
 
-                _uygulamaDbContext.KitapTurleri.Add(kitapTuru);
-                _uygulamaDbContext.SaveChanges();
+                _kitapturuRepository.Ekle(kitapTuru);
+                _kitapturuRepository.Kaydet();
                 TempData["basarili"] = "Kitap Türü Başarıyla Eklendi.";
                 return RedirectToAction("Index", "KitapTuru");
 
@@ -51,7 +51,7 @@ namespace WebUygulamaProje1.Controllers
                 return NotFound();
 
             }
-            KitapTuru? kitapTuruVT = _uygulamaDbContext.KitapTurleri.Find(id);
+            KitapTuru? kitapTuruVT = _kitapturuRepository.Get(u => u.Id == id);  // id'ye göre kitap türünü veritabanından bulup getiriyoruz. Get metodu IRepository'den geliyor. Get(Expression<Func<T, bool>> filtre)
             if (id == null || id == 0)
             {
                 return NotFound();
@@ -67,8 +67,8 @@ namespace WebUygulamaProje1.Controllers
             if (ModelState.IsValid)
             {
 
-                _uygulamaDbContext.KitapTurleri.Update(kitapTuru);
-                _uygulamaDbContext.SaveChanges();
+                _kitapturuRepository.Guncelle(kitapTuru);
+                _kitapturuRepository.Kaydet();
                 TempData["basarili"] = "Kitap Türü Başarıyla Güncellendi.";
                 return RedirectToAction("Index", "KitapTuru");
 
@@ -86,7 +86,7 @@ namespace WebUygulamaProje1.Controllers
                 return NotFound();
 
             }
-            KitapTuru? kitapTuruVT = _uygulamaDbContext.KitapTurleri.Find(id);
+            KitapTuru? kitapTuruVT = _kitapturuRepository.Get(u => u.Id == id);
             if (id == null || id == 0)
             {
                 return NotFound();
@@ -98,15 +98,15 @@ namespace WebUygulamaProje1.Controllers
         [HttpPost, ActionName("Sil")]
         public IActionResult SilPOST(int? id)
         {
-            KitapTuru? kitapTuru = _uygulamaDbContext.KitapTurleri.Find(id);
+            KitapTuru? kitapTuru = _kitapturuRepository.Get(u => u.Id == id);
             if (kitapTuru == null)
             {
                 return NotFound();
             }
 
 
-            _uygulamaDbContext.KitapTurleri.Remove(kitapTuru);
-            _uygulamaDbContext.SaveChanges();
+            _kitapturuRepository.Sil(kitapTuru);
+            _kitapturuRepository.Kaydet();
             TempData["basarili"] = "Silme İşlemi Tamamlandı.";
             return RedirectToAction("Index", "KitapTuru");
 

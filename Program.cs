@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using WebUygulamaProje1.Models;
 using WebUygulamaProje1.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,9 +10,11 @@ builder.Services.AddControllersWithViews();
 
 
 builder.Services.AddDbContext<UygulamaDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); 
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
+// IKitapTuruRepository -> KitapTuruRepository'yi kullanarak oluşturulacak. Yani IKitapTuruRepository'ye ihtiyaç duyan bir sınıf olduğunda, KitapTuruRepository'nin bir örneği sağlanacak.
+builder.Services.AddScoped<IKitapTuruRepository, KitapTuruRepository>(); 
 
 var app = builder.Build();
 
