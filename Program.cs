@@ -14,7 +14,11 @@ builder.Services.AddDbContext<UygulamaDbContext>(options =>
 
 
 // IKitapTuruRepository -> KitapTuruRepository'yi kullanarak oluşturulacak. Yani IKitapTuruRepository'ye ihtiyaç duyan bir sınıf olduğunda, KitapTuruRepository'nin bir örneği sağlanacak.
-builder.Services.AddScoped<IKitapTuruRepository, KitapTuruRepository>(); 
+builder.Services.AddScoped<IKitapTuruRepository, KitapTuruRepository>();
+
+// IKitapRepository -> KitapRepository'yi kullanarak oluşturulacak. Yani IKitapRepository'ye ihtiyaç duyan bir sınıf olduğunda, KitapRepository'nin bir örneği sağlanacak.
+builder.Services.AddScoped<IKitapRepository, KitapRepository>();
+
 
 var app = builder.Build();
 
