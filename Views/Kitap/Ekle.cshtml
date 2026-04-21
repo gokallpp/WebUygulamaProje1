@@ -1,7 +1,7 @@
 ﻿@model Kitap
 
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 
     <div class="border p-3 m-5">
         <div class="row pb-3">
@@ -15,6 +15,14 @@
             <input asp-for="KitapAdi" class="form-control" />
             <span asp-validation-for="KitapAdi" class="text-danger"></span>
         </div>
+
+        <div class="mb-3">
+            <label asp-for="KitapTuruId" class="p-0"></label>
+            <select asp-for="KitapTuruId" asp-items="ViewBag.KitapTuruList"  class="form-select"> </select>
+        <span asp-validation-for="KitapTuruId" class="text-danger"></span>
+        </div>
+
+    
 
         <div class="mb-3">
             <label asp-for="Tanim" class="p-0"></label>
@@ -34,6 +42,14 @@
             <input asp-for="Fiyat" class="form-control" />
             <span asp-validation-for="Fiyat" class="text-danger"></span>
         </div>
+
+
+        <div class="mb-3">
+            <label asp-for="ResimUrl" class="p-0"></label>
+            <input type="file" class="form-control" />
+        </div>
+
+    
 
         
 

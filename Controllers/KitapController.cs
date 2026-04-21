@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using WebUygulamaProje1.Models;
 using WebUygulamaProje1.Utility;
 
@@ -8,22 +9,34 @@ namespace WebUygulamaProje1.Controllers
     {
 
         private readonly IKitapRepository _kitapRepository;
+        private readonly IKitapTuruRepository _kitapTuruRepository;
 
-        public KitapController(IKitapRepository context)
+        public KitapController(IKitapRepository kitapRepository, IKitapTuruRepository kitapTuruRepository)
         {
-            _kitapRepository = context;
+            _kitapRepository = kitapRepository;
+            _kitapTuruRepository = kitapTuruRepository;
         }
 
 
         public IActionResult Index()   // index action çağırıldığı zaman veritabanına gidip kitap türlerini listeleyecek
         {
             List<Kitap> objKitapList = _kitapRepository.GetAll().ToList();
+           
             return View(objKitapList);
         }
 
 
         public IActionResult Ekle()
         {
+            IEnumerable<SelectListItem> KitapTuruList = _kitapTuruRepository.GetAll()
+               .Select(k => new SelectListItem
+               {
+                   Text = k.Ad,
+                   Value = k.Id.ToString()
+               });
+
+            ViewBag.KitapTuruList = KitapTuruList; // ViewBag ile kitap türlerini view'e gönderiyoruz.
+
             return View();
         }
 
