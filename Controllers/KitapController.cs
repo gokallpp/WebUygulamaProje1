@@ -26,7 +26,7 @@ namespace WebUygulamaProje1.Controllers
         }
 
 
-        public IActionResult Ekle()
+        public IActionResult EkleGuncelle(int? id)
         {
             IEnumerable<SelectListItem> KitapTuruList = _kitapTuruRepository.GetAll()
                .Select(k => new SelectListItem
@@ -37,11 +37,27 @@ namespace WebUygulamaProje1.Controllers
 
             ViewBag.KitapTuruList = KitapTuruList; // ViewBag ile kitap türlerini view'e gönderiyoruz.
 
+            if (id == null || id == 0)
+            {
+                // Ekleme işlemi
+                return View(new Kitap());
+            }
+            else
+            {
+                // Güncelleme işlemi
+                Kitap? kitapVT = _kitapRepository.Get(u => u.Id == id); // id'ye göre kitap  veritabanından bulup getiriyoruz. Get metodu IRepository'den geliyor. Get(Expression<Func<T, bool>> filtre)
+                if (kitapVT == null)
+                {
+                    return NotFound();
+                }
+                return View(kitapVT);
+            }
+
             return View();
         }
 
         [HttpPost]
-        public IActionResult Ekle(Kitap kitap)
+        public IActionResult EkleGuncelle(Kitap kitap, IFormFile? file)
         {
             if (ModelState.IsValid)
             {
@@ -57,6 +73,7 @@ namespace WebUygulamaProje1.Controllers
         }
 
 
+        /*
         public IActionResult Guncelle(int? id)
         {
             if(id==null || id == 0)
@@ -72,8 +89,9 @@ namespace WebUygulamaProje1.Controllers
             }
             return View(kitapVT);
         }
+        */
 
-
+        /*
         [HttpPost]
         public IActionResult Guncelle(Kitap kitap)
         {
@@ -89,6 +107,7 @@ namespace WebUygulamaProje1.Controllers
             return View();
 
         }
+        */
 
 
 
