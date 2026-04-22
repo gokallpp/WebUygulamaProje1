@@ -5,8 +5,8 @@ namespace WebUygulamaProje1.Models
     public interface IRepository<T> where T : class
     {
         // T -> KitapTuru
-        IEnumerable<T> GetAll(); //getall ->  tümünü getir
-        T Get(Expression<Func<T, bool>> filtre);
+        IEnumerable<T> GetAll(string? includeProps = null); //getall ->  tümünü getir
+        T Get(Expression<Func<T, bool>> filtre, string? includeProps = null);
         void Ekle(T entity);
         void Sil(T entity);
         void SilAralik(IEnumerable<T> entities);

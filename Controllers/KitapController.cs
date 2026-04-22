@@ -10,17 +10,21 @@ namespace WebUygulamaProje1.Controllers
 
         private readonly IKitapRepository _kitapRepository;
         private readonly IKitapTuruRepository _kitapTuruRepository;
+        public readonly IWebHostEnvironment _webHostEnvironment;
 
-        public KitapController(IKitapRepository kitapRepository, IKitapTuruRepository kitapTuruRepository)
+        public KitapController(IKitapRepository kitapRepository, IKitapTuruRepository kitapTuruRepository, IWebHostEnvironment webHostEnvironment)
         {
             _kitapRepository = kitapRepository;
             _kitapTuruRepository = kitapTuruRepository;
+            _webHostEnvironment = webHostEnvironment; // KitapController'ın constructor'ında IKitapRepository, IKitapTuruRepository ve IWebHostEnvironment türünde parametreler alıyoruz. Bu parametreler, dependency injection (bağımlılık enjeksiyonu) yoluyla sağlanır. Böylece, KitapController'ın ihtiyaç duyduğu hizmetlere erişebiliriz.
         }
 
 
         public IActionResult Index()   // index action çağırıldığı zaman veritabanına gidip kitap türlerini listeleyecek
         {
-            List<Kitap> objKitapList = _kitapRepository.GetAll().ToList();
+            //List<Kitap> objKitapList = _kitapRepository.GetAll().ToList();
+
+            List<Kitap> objKitapList = _kitapRepository.GetAll(includeProps:"KitapTuru").ToList();
            
             return View(objKitapList);
         }
@@ -40,7 +44,7 @@ namespace WebUygulamaProje1.Controllers
             if (id == null || id == 0)
             {
                 // Ekleme işlemi
-                return View(new Kitap());
+                return View();
             }
             else
             {
@@ -53,24 +57,54 @@ namespace WebUygulamaProje1.Controllers
                 return View(kitapVT);
             }
 
-            return View();
+            
         }
 
         [HttpPost]
         public IActionResult EkleGuncelle(Kitap kitap, IFormFile? file)
         {
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+
+
             if (ModelState.IsValid)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath; // wwwroot klasörünün fiziksel yolunu alıyoruz. Bu, resim dosyalarını kaydetmek için kullanılır.
+                string kitapPath = Path.Combine(wwwRootPath, @"img"); // wwwroot/img/kitap klasörünün fiziksel yolunu oluşturuyoruz. Resimler bu klasöre kaydedilecek.
 
-                _kitapRepository.Ekle(kitap);
-                _kitapRepository.Kaydet();
-                TempData["basarili"] = "Kitap Başarıyla Eklendi.";
+                if (file != null)
+                {
+                    using (var fileStream = new FileStream(Path.Combine(kitapPath, file.FileName), FileMode.Create))
+                    {
+                        file.CopyTo(fileStream);
+                    }
+                    kitap.ResimUrl = @"\img\" + file.FileName; // Kitap nesnesinin ResimUrl özelliğine, kaydedilen resmin yolunu atıyoruz. Bu yol, view'de resmin görüntülenmesi için kullanılacak.
+                }
+               
+
+
+                if (kitap.Id == 0)
+                {
+                    // Ekleme işlemi
+                    _kitapRepository.Ekle(kitap);
+                    TempData["basarili"] = "Kitap Başarıyla Eklendi.";
+                }
+                else
+                {
+                    // Güncelleme işlemi
+                    _kitapRepository.Guncelle(kitap);
+                    TempData["basarili"] = "Kitap Başarıyla Güncellendi.";
+                }
+
+
+                _kitapRepository.Kaydet(); 
                 return RedirectToAction("Index", "Kitap");
 
             }
             return View();
 
         }
+
+
 
 
         /*
