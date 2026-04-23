@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebUygulamaProje1.Models;
 
+// Veri Tabanında EF Tablo Oluşturması için ilgili model sınıflaırnızı buraya eklemelisiniz..
+
 namespace WebUygulamaProje1.Utility
 {
     public class UygulamaDbContext : DbContext
@@ -11,6 +13,7 @@ namespace WebUygulamaProje1.Utility
 
         public DbSet<KitapTuru> KitapTurleri { get; set; }
         public DbSet<Kitap> Kitaplar { get; set; }
+        public DbSet<Kiralama> Kiralamalar { get; set; }
 
 
     }

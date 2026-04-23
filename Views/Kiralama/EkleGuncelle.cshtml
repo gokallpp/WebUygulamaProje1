@@ -1,0 +1,49 @@
+﻿@model Kiralama
+
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="row">
+        <!-- Sayfanın ortalanması için boşluk bırakmak amacıyla iki boş kolon ekleniyor -->
+       
+
+            <div class="border p-3 m-5">
+                <div class="row pb-3">
+                <h2 class="text-primary">@(Model == null ? "Yeni Kiralama" : "Kiralama Güncelle")</h2> <!-- Model null ise ekleme, null değilse güncelleme -->
+                </hr>
+            </div>
+        
+            <div class="mb-3">
+                <label asp-for="OgrenciId" class="p-0"></label>
+                <input asp-for="OgrenciId" class="form-control" />
+                <span asp-validation-for="OgrenciId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="KitapId" class="p-0"></label>
+                <select asp-for="KitapId" asp-items="ViewBag.KitapList" class="form-select"> </select>
+            </div>       
+
+    
+        
+            @if (Model != null) // Model null ise ekleme, null değilse güncelleme
+            {
+                <button type="submit" class="btn btn-lg btn-primary" style="width:250px">Güncelle</button>
+            
+            }
+            else
+            {
+                <button type="submit" class="btn btn-lg btn-primary" style="width:250px">Yeni Kiralama</button>
+            }
+
+    
+            <a asp-controller="Kiralama" asp-action="Index" class="btn btn-lg btn-primary" style="width:250px">Kiralamalara Geri Dön</a>
+
+
+     
+
+    </div>
+
+
+   
+</form>

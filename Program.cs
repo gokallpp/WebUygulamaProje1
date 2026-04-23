@@ -12,12 +12,17 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<UygulamaDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Dikkat: her yeni repository eklediğinizde, burada da onu eklemeyi unutmayın. Aksi takdirde, o repository'yi kullanmaya çalıştığınızda hata alırsınız.
 
+// Dependency Injection (Bağımlılık Enjeksiyonu) yapılandırması
 // IKitapTuruRepository -> KitapTuruRepository'yi kullanarak oluşturulacak. Yani IKitapTuruRepository'ye ihtiyaç duyan bir sınıf olduğunda, KitapTuruRepository'nin bir örneği sağlanacak.
 builder.Services.AddScoped<IKitapTuruRepository, KitapTuruRepository>();
 
 // IKitapRepository -> KitapRepository'yi kullanarak oluşturulacak. Yani IKitapRepository'ye ihtiyaç duyan bir sınıf olduğunda, KitapRepository'nin bir örneği sağlanacak.
 builder.Services.AddScoped<IKitapRepository, KitapRepository>();
+
+// IKiralamaRepository -> KiralamaRepository'yi kullanarak oluşturulacak. Yani IKiralamaRepository'ye ihtiyaç duyan bir sınıf olduğunda, KiralamaRepository'nin bir örneği sağlanacak.
+builder.Services.AddScoped<IKiralamaRepository, KiralamaRepository>();
 
 
 var app = builder.Build();
