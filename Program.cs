@@ -13,6 +13,15 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<UygulamaDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<UygulamaDbContext>();
+
+
+builder.Services.AddRazorPages();
+
+
+
+
+
 // Dikkat: her yeni repository eklediğinizde, burada da onu eklemeyi unutmayın. Aksi takdirde, o repository'yi kullanmaya çalıştığınızda hata alırsınız.
 
 // Dependency Injection (Bağımlılık Enjeksiyonu) yapılandırması
@@ -25,12 +34,6 @@ builder.Services.AddScoped<IKitapRepository, KitapRepository>();
 // IKiralamaRepository -> KiralamaRepository'yi kullanarak oluşturulacak. Yani IKiralamaRepository'ye ihtiyaç duyan bir sınıf olduğunda, KiralamaRepository'nin bir örneği sağlanacak.
 builder.Services.AddScoped<IKiralamaRepository, KiralamaRepository>();
 
-
-builder.Services.AddDbContext<UygulamaDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddDefaultIdentity<IdentityUser>()
-    .AddEntityFrameworkStores<UygulamaDbContext>();
 
 
 var app = builder.Build();
@@ -49,6 +52,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapRazorPages();
 
 app.MapControllerRoute(
     name: "default",
