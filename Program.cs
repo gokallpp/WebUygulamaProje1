@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebUygulamaProje1.Models;
 using WebUygulamaProje1.Utility;
@@ -23,6 +24,13 @@ builder.Services.AddScoped<IKitapRepository, KitapRepository>();
 
 // IKiralamaRepository -> KiralamaRepository'yi kullanarak oluşturulacak. Yani IKiralamaRepository'ye ihtiyaç duyan bir sınıf olduğunda, KiralamaRepository'nin bir örneği sağlanacak.
 builder.Services.AddScoped<IKiralamaRepository, KiralamaRepository>();
+
+
+builder.Services.AddDbContext<UygulamaDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<UygulamaDbContext>();
 
 
 var app = builder.Build();
