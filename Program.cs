@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using WebUygulamaProje1.Models;
 using WebUygulamaProje1.Utility;
@@ -13,12 +14,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<UygulamaDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<UygulamaDbContext>();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<UygulamaDbContext>().AddDefaultTokenProviders();
 
 
 builder.Services.AddRazorPages();
-
-
 
 
 
@@ -33,7 +32,8 @@ builder.Services.AddScoped<IKitapRepository, KitapRepository>();
 
 // IKiralamaRepository -> KiralamaRepository'yi kullanarak oluşturulacak. Yani IKiralamaRepository'ye ihtiyaç duyan bir sınıf olduğunda, KiralamaRepository'nin bir örneği sağlanacak.
 builder.Services.AddScoped<IKiralamaRepository, KiralamaRepository>();
-
+// IEmailSender -> EmailSender'ı kullanarak oluşturulacak. Yani IEmailSender'a ihtiyaç duyan bir sınıf olduğunda, EmailSender'ın bir örneği sağlanacak.
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 
 var app = builder.Build();
