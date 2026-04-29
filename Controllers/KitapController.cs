@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebUygulamaProje1.Models;
 using WebUygulamaProje1.Utility;
 
 namespace WebUygulamaProje1.Controllers
 {
+    [Authorize(Roles = UserRoles.Role_Admin)] // Bu attribute, KitapController'a erişimi sadece Admin rolüne sahip kullanıcılara sınırlar. Yani, bu controller'daki tüm action'lara erişmek için kullanıcıların Admin rolüne sahip olması gerekir.
     public class KitapController : Controller
     {
 
