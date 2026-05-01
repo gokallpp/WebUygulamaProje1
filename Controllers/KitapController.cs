@@ -27,8 +27,7 @@ namespace WebUygulamaProje1.Controllers
         public IActionResult Index()   // index action çağırıldığı zaman veritabanına gidip kitap türlerini listeleyecek
         {
 
-            List<Kitap> objKitapList = _kitapRepository.GetAll(includeProps:"KitapTuru").ToList();
-           
+            List<Kitap> objKitapList = _kitapRepository.GetAll(includeProps:"KitapTuru").ToList();        
             return View(objKitapList);
         }
 

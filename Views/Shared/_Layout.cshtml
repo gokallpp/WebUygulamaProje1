@@ -62,7 +62,7 @@
                         }
 
 
-                        @if (User.IsInRole(UserRoles.Role_Ogrenci))
+                        @if (User.IsInRole(UserRoles.Role_Ogrenci))// Öğrenci rolü için kitapları görme izni
                         {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Kitap" asp-action="Index">Kitaplar</a>
