@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using WebUygulamaProje1.Models;
 using WebUygulamaProje1.Utility;
 
+
 namespace WebUygulamaProje1.Controllers
 {
-    [Authorize(Roles = UserRoles.Role_Admin)] // Bu attribute, KitapController'a erişimi sadece Admin rolüne sahip kullanıcılara sınırlar. Yani, bu controller'daki tüm action'lara erişmek için kullanıcıların Admin rolüne sahip olması gerekir.
+    
     public class KitapController : Controller
     {
 
@@ -22,9 +23,9 @@ namespace WebUygulamaProje1.Controllers
         }
 
 
+        [Authorize(Roles = "Admin,Ogrenci")]
         public IActionResult Index()   // index action çağırıldığı zaman veritabanına gidip kitap türlerini listeleyecek
         {
-            //List<Kitap> objKitapList = _kitapRepository.GetAll().ToList();
 
             List<Kitap> objKitapList = _kitapRepository.GetAll(includeProps:"KitapTuru").ToList();
            
@@ -32,6 +33,8 @@ namespace WebUygulamaProje1.Controllers
         }
 
 
+
+        [Authorize(Roles = UserRoles.Role_Admin)]
         public IActionResult EkleGuncelle(int? id)
         {
             IEnumerable<SelectListItem> KitapTuruList = _kitapTuruRepository.GetAll()
@@ -61,6 +64,8 @@ namespace WebUygulamaProje1.Controllers
 
             
         }
+
+        [Authorize(Roles = UserRoles.Role_Admin)]
 
         [HttpPost]
         public IActionResult EkleGuncelle(Kitap kitap, IFormFile? file)
@@ -146,7 +151,7 @@ namespace WebUygulamaProje1.Controllers
         */
 
 
-
+        [Authorize(Roles = UserRoles.Role_Admin)]
         public IActionResult Sil(int? id)
         {
             if (id == null || id == 0)
@@ -162,6 +167,8 @@ namespace WebUygulamaProje1.Controllers
             }
             return View(kitapVT);
         }
+
+        [Authorize(Roles = UserRoles.Role_Admin)]
 
         [HttpPost, ActionName("Sil")]
         public IActionResult SilPOST(int? id)

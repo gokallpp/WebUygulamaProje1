@@ -1,4 +1,5 @@
-﻿@model List<Kitap>
+﻿@using WebUygulamaProje1.Utility
+@model List<Kitap>
 
 @if(TempData["basarili"] != null)
 {
@@ -26,8 +27,12 @@
             <th>Fiyat</th>
             <th>Kitap Türü</th>
 
+
+            @if (User.IsInRole(UserRoles.Role_Admin))
+            {
             <th></th>
             <th></th>
+            }
 
         </tr>
     </thead>
@@ -43,9 +48,7 @@
                 <td>@Kitap.Fiyat</td>
                 <td>@Kitap.KitapTuru.Ad</td>
 
-                <td><a asp-controller="Kitap" asp-action="EkleGuncelle" asp-route-id="@Kitap.Id" type="button" style="width:80px" class="btn btn-warning">Güncelle</a> </td>
 
-                <td><a asp-controller="Kitap" asp-action="Sil" asp-route-id="@Kitap.Id" type="button" style="width:80px" class="btn btn-danger">Sil</a></td>
                 
             </tr>
         }
@@ -53,9 +56,14 @@
 
 </table>
 
-<div class="row pt-3 pb-2">
-    <div>
-        <a asp-controller="Kitap" asp-action="EkleGuncelle" class="btn btn-lg btn-primary" type="button">Yeni Kitap Oluştur</a>
+@if (User.IsInRole(UserRoles.Role_Admin))
+{
+
+    <div class="row pt-3 pb-2">
+        <div>
+            <a asp-controller="Kitap" asp-action="EkleGuncelle" class="btn btn-lg btn-primary" type="button">Yeni Kitap Oluştur</a>
+        </div>
     </div>
-</div>
+    
+}
 </div>

@@ -10,50 +10,82 @@
     <link rel="stylesheet" href="~/WebUygulamaProje1.styles.css" asp-append-version="true" />
 </head>
 <body>
+
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebUygulamaProje1</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center gap-2" asp-area="" asp-controller="Home" asp-action="Index">
+                    <div class="logo-icon">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <rect x="2" y="3" width="3" height="12" rx="1" fill="#CECBF6" />
+                            <rect x="6.5" y="2" width="3" height="13" rx="1" fill="#AFA9EC" />
+                            <rect x="11" y="4" width="3" height="11" rx="1" fill="#CECBF6" />
+                            <rect x="15" y="5" width="1.5" height="10" rx="0.75" fill="#7F77DD" />
+                        </svg>
+                    </div>
+                    <div class="d-flex flex-column lh-sm">
+                        <span class="fw-bold" style="font-size: 0.95rem;">BiblioTek</span>
+                        <span style="font-size: 0.65rem; opacity: 0.75;">Kütüphane Yönetimi</span>
+                    </div>
+                </a>
+
+                <!-- Mobile toggle -->
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarContent"
+                        aria-controls="navbarContent"
+                        aria-expanded="false"
+                        aria-label="Menüyü aç">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <!-- Nav links -->
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Anasayfa</a>
                         </li>
 
-
-                        @if (User.IsInRole(UserRoles.Role_Admin))//Admin rolüne sahip kullanıcılar için gösterilecek menü
-                        { 
-
+                        @if (User.IsInRole(UserRoles.Role_Admin))
+                        {
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="KitapTuru" asp-action="Index">Kitap Türü</a>
                             </li>
-
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="Kitap" asp-action="Index">Kitap</a>
+                                <a class="nav-link" asp-area="" asp-controller="Kitap" asp-action="Index">Kitap İşlemleri</a>
                             </li>
-
                             <li class="nav-item">
                                 <a class="nav-link" asp-area="" asp-controller="Kiralama" asp-action="Index">Kiralama</a>
                             </li>
                         }
 
+
+                        @if (User.IsInRole(UserRoles.Role_Ogrenci))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Kitap" asp-action="Index">Kitaplar</a>
+                            </li>
+                        }
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">İletişim</a>
+                        </li>
+
                     </ul>
 
-                    <partial name="_LoginPartial" />
 
-
-
+                    <!-- Login -->
+                    <partial name="_LoginPartial" /> 
                 </div>
+
             </div>
         </nav>
     </header>
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -62,7 +94,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - WebUygulamaProje1 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2026 - Online Kütüphane - <a asp-area="" asp-controller="Home" asp-action="Privacy">İletişim</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

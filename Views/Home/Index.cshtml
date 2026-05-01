@@ -1,10 +1,11 @@
-﻿@{
+﻿@using WebUygulamaProje1.Utility
+@{
     ViewData["Title"] = "Home Page";
 }
 
-
+@*
 <html>
-
+    
 <body>
 
     <div class="">
@@ -23,11 +24,329 @@
                 Kitap
             </a>
 
-            
-
 
         </div>
     </div>
 
 </body>
 </html>
+
+*@
+
+<style>
+    @@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@400;500&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    .lib-root {
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      background: var(--color-background-tertiary);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bg-pattern {
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 39px,
+        var(--color-border-tertiary) 39px,
+        var(--color-border-tertiary) 40px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        transparent,
+        transparent 39px,
+        var(--color-border-tertiary) 39px,
+        var(--color-border-tertiary) 40px
+      );
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .header-bar {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 2rem;
+      border-bottom: 0.5px solid var(--color-border-tertiary);
+      background: var(--color-background-primary);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: #3C3489;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      letter-spacing: -0.3px;
+    }
+
+    .logo-sub {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      font-weight: 400;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-top: 1px;
+    }
+
+    .header-badge {
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      background: var(--color-background-secondary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: 20px;
+      padding: 4px 12px;
+    }
+
+    .hero {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem 3rem;
+    }
+
+    .hero-eyebrow {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: #534AB7;
+      margin-bottom: 1.25rem;
+      background: #EEEDFE;
+      border: 0.5px solid #AFA9EC;
+      border-radius: 20px;
+      padding: 5px 16px;
+      display: inline-block;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 52px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      margin-bottom: 1rem;
+      max-width: 560px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: #534AB7;
+    }
+
+    .hero-subtitle {
+      font-size: 15px;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      max-width: 400px;
+      margin-bottom: 2.5rem;
+    }
+
+    .cta-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #3C3489;
+      color: #CECBF6;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .btn-primary:hover { background: #534AB7; }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--color-background-primary);
+      color: var(--color-text-primary);
+      border: 0.5px solid var(--color-border-secondary);
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+
+    .btn-secondary:hover { background: var(--color-background-secondary); }
+
+    .cards-section {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      padding: 0 2rem 2.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .nav-card {
+      background: var(--color-background-primary);
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.15s;
+      text-align: left;
+      text-decoration: none;
+      display: block;
+    }
+
+    .nav-card:hover {
+      border-color: var(--color-border-secondary);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-icon.purple { background: #EEEDFE; }
+    .card-icon.teal { background: #E1F5EE; }
+    .card-icon.amber { background: #FAEEDA; }
+    .card-icon.coral { background: #FAECE7; }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+    }
+
+    .stats-bar {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      gap: 0;
+      border: 0.5px solid var(--color-border-tertiary);
+      border-radius: var(--border-radius-lg);
+      overflow: hidden;
+      max-width: 860px;
+      margin: 0 auto 2rem;
+      background: var(--color-background-primary);
+      padding: 0 1rem;
+    }
+
+    .stat-item {
+      flex: 1;
+      padding: 1.25rem 1rem;
+      text-align: center;
+      border-right: 0.5px solid var(--color-border-tertiary);
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      line-height: 1;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      margin-top: 4px;
+      letter-spacing: 0.5px;
+    }
+</style>
+
+<div class="lib-root">
+    <div class="bg-pattern"></div>
+
+  
+    <div class="hero">
+        <div class="hero-eyebrow">Hoş Geldiniz</div>
+        <h1 class="hero-title">Kitaplarınızı <em>akıllıca</em> yönetin</h1>
+       
+        <div class="cta-group"> 
+                <a href="Kitap" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="4.5" height="12" rx="1" fill="currentColor" opacity="0.7" /><rect x="7.5" y="2" width="6.5" height="8" rx="1" fill="currentColor" /></svg>
+                Kitaplar
+            </a>
+           
+            
+        </div>
+    </div>
+   
+
+    <div class="cards-section">
+        <a href="Kitap" class="nav-card">
+            <div class="card-icon purple">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="5" height="14" rx="1.5" fill="#534AB7" /><rect x="9.5" y="3" width="7.5" height="9" rx="1.5" fill="#7F77DD" /></svg>
+            </div>
+            <div class="card-title">Kitap Yönetimi</div>
+            <p class="card-desc">Kitap ekleyin, düzenleyin ve kütüphane envanterinizi yönetin.</p>
+        </a>
+
+        <a href="KitapTuru" class="nav-card">
+            <div class="card-icon teal">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="7" cy="7" r="4" fill="#1D9E75" opacity="0.8" /><circle cx="13" cy="13" r="4" fill="#0F6E56" opacity="0.6" /></svg>
+            </div>
+            <div class="card-title">Kitap Türleri</div>
+            <p class="card-desc">Kategorileri ve türleri düzenleyin, yeni türler tanımlayın.</p>
+        </a>
+
+                
+    </div>
+</div>
+
